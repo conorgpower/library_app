@@ -28,6 +28,20 @@ router.findOne = (req, res) => {
 
 }
 
+router.addBook = (req, res) => {
+    //Add a new book to our list
+    var id = Math.floor((Math.random() * 1000000) + 1); //Randomly generate an id
+
+    var currentSize = books.length;
+
+    books.push({"id" : id, "author" : req.body.author, "stock" : req.body.stock, "bookCondition" : req.body.bookCondition});
+
+    if((currentSize + 1) == books.length)
+        res.json({ message: 'Book Added!'});
+    else
+        res.json({ message: 'Book NOT Added!'});
+}
+
 function getByValue(array, id) {
     var result  = array.filter(function(obj){return obj.id == id;} );
     return result ? result[0] : null; // or undefined
