@@ -27,7 +27,13 @@ app.use('/users', usersRouter);
 //Custom Library Web App Routes
 app.get('/books', books.findAll);
 app.get('/books/:id', books.findOne);
+
 app.post('/books', books.addBook);
+
+app.put('/books/:id/upStock', books.incrementStock);
+
+app.delete('/books/:id', books.deleteBook);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
