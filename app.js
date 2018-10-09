@@ -26,7 +26,7 @@ app.use('/users', usersRouter);
 
 //Custom Library Web App Routes
 app.get('/books', books.findAll);
-app.get('/books/:id', books.findOne());
+app.get('/books/:id', books.findOne);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
