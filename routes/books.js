@@ -1,17 +1,20 @@
 let books = require('../models/books');
 let express = require('express');
 let router = express.Router();
+let mongoose = require('mongoose');
+var Book = require('../models/books');
 
 //List all books
 router.findAll = (req, res) => {
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(books,null,5));
     // Return a JSON representation of our list
-    if (books != null) {
-        res.json(books);
-    } else {
-        res.send('Books NOT Found!');
-    }
+    res.setHeader('Content-Type', 'application/json');
+
+    Book.find(function(err, books) {
+        if (err)
+            res.send(err);
+
+        res.send(JSON.stringify(books,null,5));
+    });
 }
 
 //Find and list one book
@@ -19,61 +22,92 @@ router.findOne = (req, res) => {
 
     res.setHeader('Content-Type', 'application/json');
 
-    var book = getByValue(books,req.params.id);
-
-    if (book != null)
-        res.send(JSON.stringify(book,null,5));
-    else
-        res.send('Donation NOT Found!!');
-
+    Book.find({ "_id" : req.params.id },function(err, book) {
+        if (err)
+            res.json({ message: 'Book NOT Found!', errmsg : err } );
+        else
+            res.send(JSON.stringify(book,null,5));
+    });
 }
 
 router.addBook = (req, res) => {
-    //Add a new book to our list
-    var id = Math.floor((Math.random() * 1000000) + 1); //Randomly generate an id
 
-    var currentSize = books.length;
+    res.setHeader('Content-Type', 'application/json');
 
-    books.push({"id" : id, "author" : req.body.author, "stock" : req.body.stock});
+    var book = new Book();
 
-    if((currentSize + 1) == books.length)
-        res.json({ message: 'Book Added!'});
-    else
-        res.json({ message: 'Book NOT Added!'});
+    book.bookName = req.body.bookName;
+    book.author = req.body.author;
+
+    book.save(function(err) {
+        if (err)
+            res.json({ message: 'Book NOT Added!', errmsg : err } );
+        else
+            res.json({ message: 'Book Successfully Added!', data: book });
+    });
 }
 
 //Increase stock i.e. users returns an existing book
-router.incrementStock = (req, res) => {
+router.returnExistingBook = (req, res) => {
 
-    var book = getByValue(books,req.params.id);
-    var stock = book.stock.length;
-    book.stock += 1;
-
-    if ((stock + 1) == book.stock.length) {
-        res.json({ message: book.id + book.bookName + book.author + stock })
-    } else {
-        res.json({message: "Book NOT found!"})
-    }
+    Book.findById(req.params.id, function(err,book) {
+        if (err)
+            res.json({ message: 'Book NOT Found!', errmsg : err } );
+        else {
+            book.stock += 1;
+            book.save(function (err) {
+                if (err)
+                    res.json({ message: 'Book Return NOT Successful!', errmsg : err } );
+                else
+                    res.json({ message: 'Existing Book Successfully Returned!', data: book });
+            });
+        }
+    });
 }
 
 router.deleteBook = (req, res) => {
-    //Delete the selected book based on its id
-    var book = getByValue(books,req.params.id);
-    var index = books.indexOf(book);
 
-    var currentSize = books.length;
-    books.splice(index, 1);
-
-    if((currentSize - 1) == books.length)
-        res.json({ message: 'Book Deleted!'});
-    else
-        res.json({ message: 'Book NOT Deleted!'});
+    Book.findByIdAndRemove(req.params.id, function(err) {
+        if (err)
+            res.json({ message: 'Book NOT DELETED!', errmsg : err } );
+        else
+            res.json({ message: 'Book Successfully Deleted!'});
+    });
 }
 
-function getByValue(array, id) {
-    var result  = array.filter(function(obj){return obj.id == id;} );
-    return result ? result[0] : null; // or undefined
+
+router.findTotalBooks = (req, res) => {
+
+    Book.find(function(err, books) {
+        if (err)
+            res.send(err);
+        else
+            res.json({ totalBooks : getTotalStock(books) });
+    });
 }
+
+// function getByValue(array, id) {
+//     var result  = array.filter(function(obj){return obj.id == id;} );
+//     return result ? result[0] : null; // or undefined
+// }
+
+function getTotalStock(array) {
+    let totalStock = 0;
+    array.forEach(function(obj) { totalStock += obj.stock; });
+    return totalStock;
+}
+
+mongoose.connect('mongodb://localhost:27017/booksdb');
+
+let db = mongoose.connection;
+
+db.on('error', function (err) {
+    console.log('Unable to Connect to [ ' + db.name + ' ]', err);
+});
+
+db.once('open', function () {
+    console.log('Successfully Connected to [ ' + db.name + ' ]');
+});
 
 
 module.exports = router;

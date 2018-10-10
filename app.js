@@ -26,11 +26,12 @@ app.use('/users', usersRouter);
 
 //Custom Library Web App Routes
 app.get('/books', books.findAll);
+app.get('/books/totalBooks', books.findTotalBooks);
 app.get('/books/:id', books.findOne);
 
 app.post('/books', books.addBook);
 
-app.put('/books/:id/upStock', books.incrementStock);
+app.put('/books/:id/returnExistingBook', books.returnExistingBook);
 
 app.delete('/books/:id', books.deleteBook);
 
