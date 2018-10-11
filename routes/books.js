@@ -1,8 +1,22 @@
-let books = require('../models/books');
 let express = require('express');
 let router = express.Router();
 let mongoose = require('mongoose');
 var Book = require('../models/books');
+
+var mongodbUri ='mongodb://conorgpower:WebAppDev2018@ds225703.mlab.com:25703/booksdb';
+
+mongoose.connect(mongodbUri);
+
+let db = mongoose.connection;
+
+db.on('error', function (err) {
+    console.log('Unable to Connect to [ ' + db.name + ' ]', err);
+});
+
+db.once('open', function () {
+    console.log('Successfully Connected to [ ' + db.name + ' ]');
+});
+
 
 //List all books
 router.findAll = (req, res) => {
@@ -96,18 +110,5 @@ function getTotalStock(array) {
     array.forEach(function(obj) { totalStock += obj.stock; });
     return totalStock;
 }
-
-mongoose.connect('mongodb://localhost:27017/booksdb');
-
-let db = mongoose.connection;
-
-db.on('error', function (err) {
-    console.log('Unable to Connect to [ ' + db.name + ' ]', err);
-});
-
-db.once('open', function () {
-    console.log('Successfully Connected to [ ' + db.name + ' ]');
-});
-
 
 module.exports = router;
