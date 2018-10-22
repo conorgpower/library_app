@@ -1,0 +1,20 @@
+Name:        Conor Power
+StudentID:   20075871
+
+Functionality:
+This is a Node Web Server application to manage the a library's inventory.
+Using a RESTful API the following features have been added to the application:
+POST - Add a book to the system in JSON format
+GET - Find all books
+GET - Find total number of books in library
+GET - Find a specific book by ID
+GET - Find a books name by ID
+GET - Find a books author by Id
+GET - FInd a books stock by ID
+PUT - Return existing book (increment stock)
+PUT - Update book name
+PUT - Update book author
+DELETE - Remove book from inventory by ID
+
+The app displays persistence using MongoDB.
+The app is deployed using Heroku.
