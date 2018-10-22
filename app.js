@@ -28,10 +28,15 @@ app.use('/users', usersRouter);
 app.get('/books', books.findAll);
 app.get('/books/totalBooks', books.findTotalBooks);
 app.get('/books/:id', books.findOne);
+app.get('/books/:id/findName', books.findName);
+app.get('/books/:id/findAuthor', books.findAuthor);
+app.get('/books/:id/findStock', books.findStock);
 
 app.post('/books', books.addBook);
 
 app.put('/books/:id/returnExistingBook', books.returnExistingBook);
+app.put('/books/:id/updateBookName', books.updateBookName);
+app.put('/books/:id/updateBookAuthor', books.updateBookAuthor);
 
 app.delete('/books/:id', books.deleteBook);
 
