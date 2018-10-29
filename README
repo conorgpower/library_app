@@ -10,8 +10,8 @@ GET - Find all books
 GET - Find total number of books in library
 GET - Find a specific book by ID
 GET - Find a books name by ID
-GET - Find a books author by Id
-GET - FInd a books stock by ID
+GET - Find a books author by ID
+GET - Find a books stock by ID
 PUT - Return existing book (increment stock)
 PUT - Update book name
 PUT - Update book author
@@ -22,6 +22,7 @@ The app displays persistence using mLab for users and books.
 The app is deployed using Heroku - www.wit-library-app.herokuapp.com
 
 GitHub: https://github.com/conorgpower/wit-library-app
+YouTube: http://youtu.be/uwlK_6E37rc?hd=1
 
 Sources;
 David Drohan - Lab Tutorials
