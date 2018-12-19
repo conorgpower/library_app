@@ -3,12 +3,11 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var cors =  require('cors');
 
 var indexRouter = require('./routes/index');
-var userRouter = require('./routes/user');
 
 const books = require("./routes/books");
-const user = require("./routes/user");
 
 var app = express();
 
@@ -23,7 +22,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/user', userRouter);
 
 //Custom Library Web App Routes
 app.get('/books', books.findAll);

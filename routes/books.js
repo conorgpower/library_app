@@ -29,7 +29,7 @@ router.findAll = (req, res) => {
 
         res.send(JSON.stringify(books,null,5));
     });
-}
+};
 
 //Find and list one book
 router.findOne = (req, res) => {
@@ -42,7 +42,7 @@ router.findOne = (req, res) => {
         else
             res.send(JSON.stringify(book,null,5));
     });
-}
+};
 
 //Find book name by id
 router.findName = (req, res) => {
@@ -55,7 +55,7 @@ router.findName = (req, res) => {
         else
             res.send(JSON.stringify(book.bookName,null,5));
     });
-}
+};
 
 //Find books author by id
 router.findAuthor = (req, res) => {
@@ -68,7 +68,7 @@ router.findAuthor = (req, res) => {
         else
             res.send(JSON.stringify(book.author,null,5));
     });
-}
+};
 
 //Find books stock by id
 router.findStock = (req, res) => {
@@ -81,7 +81,7 @@ router.findStock = (req, res) => {
         else
             res.send(JSON.stringify(book.stock,null,5));
     });
-}
+};
 
 router.addBook = (req, res) => {
 
@@ -98,7 +98,7 @@ router.addBook = (req, res) => {
         else
             res.json({ message: 'Book Successfully Added!', data: book });
     });
-}
+};
 
 //Edit book name
 router.updateBookName = (req, res) => {
@@ -118,7 +118,7 @@ router.updateBookName = (req, res) => {
             });
         }
     });
-}
+};
 
 //Edit book author
 router.updateBookAuthor = (req, res) => {
@@ -138,7 +138,7 @@ router.updateBookAuthor = (req, res) => {
             });
         }
     });
-}
+};
 
 //Increase stock i.e. users returns an existing book
 router.returnExistingBook = (req, res) => {
@@ -156,7 +156,7 @@ router.returnExistingBook = (req, res) => {
             });
         }
     });
-}
+};
 
 //Increase stock i.e. users returns an existing book
 router.returnExistingBook = (req, res) => {
@@ -174,7 +174,7 @@ router.returnExistingBook = (req, res) => {
             });
         }
     });
-}
+};
 
 router.deleteBook = (req, res) => {
 
@@ -184,7 +184,7 @@ router.deleteBook = (req, res) => {
         else
             res.json({ message: 'Book Successfully Deleted!'});
     });
-}
+};
 
 
 router.findTotalBooks = (req, res) => {
@@ -195,7 +195,7 @@ router.findTotalBooks = (req, res) => {
         else
             res.json({ totalBooks : getTotalStock(books) });
     });
-}
+};
 
 // function getByValue(array, id) {
 //     var result  = array.filter(function(obj){return obj.id == id;} );
