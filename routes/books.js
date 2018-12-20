@@ -127,7 +127,7 @@ router.updateBookAuthor = (req, res) => {
         if (err)
             res.json({ message: 'Book NOT Found!', errmsg : err } );
         else {
-            book.bookName = bookName;
+            //book.bookName = bookName;
             book.author = req.body.author;
 
             book.save(function (err) {
